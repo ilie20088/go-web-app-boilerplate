@@ -1,28 +1,38 @@
 package config
 
 import (
+	"log"
+
 	"github.com/spf13/viper"
 )
 
 var (
-	Manager *viper.Viper = viper.New()
+	ConfigManager *viper.Viper = viper.New()
 )
 
 func SetDefaults() {
-	Manager.SetDefault("host", "localhost")
-	Manager.SetDefault("port", "8000")
-	Manager.SetDefault("db.host", "localhost")
-	Manager.SetDefault("db.name", "playheads")
-	Manager.SetDefault("db.user", "playheads")
-	Manager.SetDefault("db.pass", "playheads")
+	ConfigManager.SetDefault("host", "localhost")
+	ConfigManager.SetDefault("port", "8000")
+	ConfigManager.SetDefault("db.host", "localhost")
+	ConfigManager.SetDefault("db.name", "playheads")
+	ConfigManager.SetDefault("db.user", "playheads")
+	ConfigManager.SetDefault("db.pass", "playheads")
 }
 
-func ReadFromFile() error {
-	Manager.SetConfigName("config")
-	Manager.AddConfigPath("config/")
-	return Manager.ReadInConfig()
+func ReadFromFile(filename, cfgpath string) error {
+	ConfigManager.SetConfigName(filename)
+	ConfigManager.AddConfigPath(cfgpath)
+	return ConfigManager.ReadInConfig()
 }
 
 func GetAddr() string {
-	return Manager.GetString("host") + ":" + Manager.GetString("port")
+	return ConfigManager.GetString("host") + ":" + ConfigManager.GetString("port")
+}
+
+func init() {
+	SetDefaults()
+	err := ReadFromFile("config", "config")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

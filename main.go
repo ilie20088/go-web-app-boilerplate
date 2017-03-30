@@ -9,11 +9,6 @@ import (
 )
 
 func main() {
-	cfg.SetDefaults()
-	err := cfg.ReadFromFile()
-	if err != nil {
-		log.Fatal(err)
-	}
 	pubRouter := app.PublicRouter()
 	http.Handle("/", pubRouter)
 
