@@ -5,8 +5,11 @@ import (
 	"net/http"
 
 	"github.com/ilie20088/go-web-app-boilerplate/app"
+
 	cfg "github.com/ilie20088/go-web-app-boilerplate/app/config"
 )
+
+
 
 func main() {
 	pubRouter := app.PublicRouter()
@@ -14,3 +17,4 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(cfg.GetAddr(), pubRouter))
 }
+

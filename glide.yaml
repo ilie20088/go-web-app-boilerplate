@@ -2,3 +2,9 @@ package: github.com/ilie20088/go-web-app-boilerplate
 import:
 - package: github.com/gorilla/mux
   version: ^1.3.0
+- package: github.com/Sirupsen/logrus
+  version: ^0.11.5
+- package: github.com/uber-go/zap
+  version: ^1.0.0
+- package: go.uber.org/zap
+  version: ^1.0.0
