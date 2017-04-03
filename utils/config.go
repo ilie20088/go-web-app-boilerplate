@@ -1,13 +1,16 @@
 package utils
 
 import (
+	goflag "flag"
 	"log"
 
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
 
 var (
 	ConfigManager *viper.Viper = viper.New()
+	configpath *string = pflag.String("configpath", "./config", "Path to 'config.yaml' file")
 )
 
 func SetDefaults() {
@@ -37,7 +40,11 @@ func GetAddr() string {
 
 func InitConfig() {
 	SetDefaults()
-	err := ReadFromFile("config", "config")
+
+	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
+	pflag.Parse()
+
+	err := ReadFromFile("config", *configpath)
 	if err != nil {
 		log.Println(err)
 	}
