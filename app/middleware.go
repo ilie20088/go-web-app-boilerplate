@@ -1,25 +1,34 @@
 package app
 
 import (
-	"github.com/ilie20088/go-web-app-boilerplate/utils"
+	"io/ioutil"
 	"net/http"
+
+	"github.com/ilie20088/go-web-app-boilerplate/utils"
 	"go.uber.org/zap"
 )
 
-func LoggingMiddleWare(h http.Handler) http.Handler {
+func LoggingMiddleware(h http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//r.Context().
-		//utils.ZapLogger.Core().
-
-		//utils.Logger.Debug("A request is done", r.URL.String())
 		h.ServeHTTP(w, r)
-		utils.ZapLogger.Info("Request intro", zap.String("URL", r.URL.String()))
-		utils.ZapLogger.Info("Request out")
+
+		if utils.LogLevel == zap.DebugLevel {
+			reqBody, _ := ioutil.ReadAll(r.Body)
+			utils.Logger.Debug(
+				"HTTP Request",
+				zap.String("method", r.Method),
+				zap.String("user_agent", r.UserAgent()),
+				zap.String("content_type", r.Header.Get("Content-Type")),
+				zap.String("url_path", r.URL.Path),
+				zap.String("url_params", r.URL.RawQuery),
+				zap.String("request_body", string(reqBody)),
+			)
+			defer r.Body.Close()
+		}
 	})
 }
 
-
 func init() {
-	utils.Logger.Info("Middleware")
+	//utils.Logger.Info("Middleware")
 }

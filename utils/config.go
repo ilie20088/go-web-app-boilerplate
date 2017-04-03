@@ -1,4 +1,4 @@
-package config
+package utils
 
 import (
 	"log"
@@ -13,10 +13,16 @@ var (
 func SetDefaults() {
 	ConfigManager.SetDefault("host", "localhost")
 	ConfigManager.SetDefault("port", "8000")
+
 	ConfigManager.SetDefault("db.host", "localhost")
-	ConfigManager.SetDefault("db.name", "playheads")
-	ConfigManager.SetDefault("db.user", "playheads")
-	ConfigManager.SetDefault("db.pass", "playheads")
+	ConfigManager.SetDefault("db.name", "dbname")
+	ConfigManager.SetDefault("db.user", "dbuser")
+	ConfigManager.SetDefault("db.password", "password")
+
+	ConfigManager.SetDefault("log.level", "warn")
+	ConfigManager.SetDefault("log.output", []string{"app.log"})
+	ConfigManager.SetDefault("log.caller", false)
+	ConfigManager.SetDefault("log.stacktrace", true)
 }
 
 func ReadFromFile(filename, cfgpath string) error {
@@ -29,10 +35,10 @@ func GetAddr() string {
 	return ConfigManager.GetString("host") + ":" + ConfigManager.GetString("port")
 }
 
-func init() {
+func InitConfig() {
 	SetDefaults()
 	err := ReadFromFile("config", "config")
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }

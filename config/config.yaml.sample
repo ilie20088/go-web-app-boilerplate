@@ -1,7 +1,17 @@
 host: localhost
 port: 8000
+log:
+  level: info
+  # 'stdout' and 'stderr' are special values
+  output:
+    - stdout
+    - app.log
+  # show file with line which did loggign
+  caller: true
+  # show stack trace in case of error
+  stacktrace: false
 db:
-  host: localhvost
-  name: playheads
-  user: playheads
-  pass: playheads
+  host: dbhost
+  name: dbname
+  user: dbuser
+  pass: dbpass

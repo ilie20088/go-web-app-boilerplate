@@ -1,81 +1,36 @@
 package utils
 
 import (
-	"github.com/Sirupsen/logrus"
-	"time"
-	"fmt"
-	"strings"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
+var Logger *zap.Logger
+var LogLevel zapcore.Level
 
-type customFormmater struct {}
+func InitLogger() {
 
-
-
-var Logger *logrus.Entry
-var ZapLogger *zap.Logger
-
-func (_ customFormmater) Format(e *logrus.Entry) ([]byte, error){
-	timeStr := time.Now().Format(time.RFC3339)
-
-	res := fmt.Sprintf("[%s]%s, Msg: %s \n", strings.ToUpper(e.Level.String()), timeStr, e.Message)
-	//e.Data
-
-
-	return []byte(res), nil
-}
-
-
-
-func init() {
-
-	//logrus.Formatter()
-
-	Logger = logrus.WithFields(logrus.Fields{})
-	logrus.SetFormatter(customFormmater{})
-	//logrus.S
-
-	//logrus.New().
-	//logrus.SetFormatter()
-	//logrus.
-
-	logrus.SetLevel(logrus.DebugLevel)
-
-	//l,_ := zap.NewProduction()
-
-	//l.
-
-	//config := zap.NewProductionConfig()
-	//config.Level = /
-	//config.Level = zap.NewAtomicLevel().SetLevel(zap.DebugLevel)
+	switch ConfigManager.GetString("log.level") {
+	case "debug":
+		LogLevel = zap.DebugLevel
+	case "info":
+		LogLevel = zap.InfoLevel
+	case "warn":
+		LogLevel = zap.WarnLevel
+	case "error":
+		LogLevel = zap.ErrorLevel
+	default:
+		LogLevel = zap.InfoLevel
+	}
 
 	atomicLevel := zap.NewAtomicLevel()
-	atomicLevel.SetLevel(zap.DebugLevel)
+	atomicLevel.SetLevel(LogLevel)
 	config := zap.NewProductionConfig()
+	config.OutputPaths = ConfigManager.GetStringSlice("log.output")
 	config.Level = atomicLevel
-	//zap.New
 
-	//zap.Option
-	config.DisableCaller = true;
-	config.DisableStacktrace = true;
-	//config.
-	ZapLogger, _ = config.Build()
+	config.DisableCaller = !ConfigManager.GetBool("log.caller")
+	config.DisableStacktrace = !ConfigManager.GetBool("log.stacktrace")
 
-
-	sl := ZapLogger.Sugar()
-
-	ZapLogger.Info("ZAP info message")
-	ZapLogger.Info("URL params", zap.String("key", "value"))
-	sl.Debug("SUGAR debug")
-	sl.Info("SUGAR info message")
-	sl.Warn("SUGAR worn")
-	sl.Error("SUGAR error message")
-	sl.Infow("SUGAR Infow", "url", 5, "asd", true)
-
-
-	//Logger.Debug("Init utils debug")
-	//Logger.Info("Init utils info")
-	//Logger.Warn("Init utils warn")
-	Logger.Error("Init utils error")
+	Logger, _ = config.Build()
 }
