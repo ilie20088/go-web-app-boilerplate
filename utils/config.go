@@ -10,7 +10,7 @@ import (
 
 var (
 	ConfigManager *viper.Viper = viper.New()
-	configpath *string = pflag.String("configpath", "./config", "Path to 'config.yaml' file")
+	configpath    *string      = pflag.String("configpath", "./config", "Path to 'config.yaml' file")
 )
 
 func SetDefaults() {

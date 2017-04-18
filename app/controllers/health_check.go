@@ -1,7 +1,19 @@
 package controllers
 
-import "net/http"
+import (
+	"github.com/ilie20088/go-web-app-boilerplate/app/services"
+	"net/http"
+)
 
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
+type HealthController struct {
+	HealthService services.HealthService
+}
+
+func NewHealthController() *HealthController {
+	return &HealthController{HealthService: services.NewHealthService()}
+}
+
+func (h HealthController) HealthCheck(w http.ResponseWriter, r *http.Request) {
+	healthMsg := h.HealthService.GetHealthMessage()
+	w.Write([]byte(healthMsg))
 }
