@@ -7,12 +7,9 @@ import (
 	"github.com/ilie20088/go-web-app-boilerplate/app"
 	"github.com/ilie20088/go-web-app-boilerplate/utils"
 	"github.com/justinas/alice"
-	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
-	"github.com/ilie20088/go-web-app-boilerplate/app/services"
 )
 
 func main() {
-	controllers.Init(services.HealthServiceImpl{})
 	pubRouter := app.PublicRouter()
 	privateRouter := app.PrivateRouter()
 	chain := alice.New(app.LoggingMiddleware).Then(privateRouter)
