@@ -6,14 +6,18 @@ import (
 
 	"github.com/ilie20088/go-web-app-boilerplate/app"
 	"github.com/ilie20088/go-web-app-boilerplate/utils"
+	"github.com/justinas/alice"
+	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
+	"github.com/ilie20088/go-web-app-boilerplate/app/services"
 )
 
 func main() {
-	publicRouterFactory := app.NewPublicRouterFactory()
-	pubRouter := publicRouterFactory.PublicRouter()
+	controllers.Init(services.HealthServiceImpl{})
+	pubRouter := app.PublicRouter()
 	privateRouter := app.PrivateRouter()
+	chain := alice.New(app.LoggingMiddleware).Then(privateRouter)
 
-	http.Handle("/", privateRouter)
+	http.Handle("/", chain)
 	http.Handle("/_health", pubRouter)
 
 	log.Fatal(http.ListenAndServe(utils.GetAddr(), nil))

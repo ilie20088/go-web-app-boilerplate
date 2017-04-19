@@ -4,12 +4,8 @@ type HealthService interface {
 	GetHealthMessage() string
 }
 
-type healthServiceImpl struct{}
+type HealthServiceImpl struct{}
 
-func NewHealthService() HealthService {
-	return &healthServiceImpl{}
-}
-
-func (h healthServiceImpl) GetHealthMessage() string {
+func (h HealthServiceImpl) GetHealthMessage() string {
 	return "UP"
 }

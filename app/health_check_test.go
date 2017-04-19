@@ -16,9 +16,8 @@ func TestHealthCheck(t *testing.T) {
 		t.Fatal(err)
 	}
 	responseWriter := httptest.NewRecorder()
-	publicRouterFactory := &PublicRouterFactory{}
-	publicRouterFactory.healthController = &controllers.HealthController{HealthService: HealthServiceStub{}}
-	router := publicRouterFactory.PublicRouter()
+	controllers.Init(HealthServiceStub{})
+	router := PublicRouter()
 
 	router.ServeHTTP(responseWriter, request)
 

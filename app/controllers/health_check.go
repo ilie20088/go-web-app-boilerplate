@@ -5,15 +5,13 @@ import (
 	"net/http"
 )
 
-type HealthController struct {
-	HealthService services.HealthService
+var healthService services.HealthService
+
+func Init(hs services.HealthService) {
+	healthService = hs
 }
 
-func NewHealthController() *HealthController {
-	return &HealthController{HealthService: services.NewHealthService()}
-}
-
-func (h HealthController) HealthCheck(w http.ResponseWriter, r *http.Request) {
-	healthMsg := h.HealthService.GetHealthMessage()
+func HealthCheck(w http.ResponseWriter, _ *http.Request) {
+	healthMsg := healthService.GetHealthMessage()
 	w.Write([]byte(healthMsg))
 }
