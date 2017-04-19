@@ -1,11 +1,11 @@
 package app
 
 import (
-	"github.com/magiconair/properties/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestHealthCheck(t *testing.T) {
