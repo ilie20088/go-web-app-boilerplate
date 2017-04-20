@@ -5,6 +5,9 @@ import (
 	"net/http"
 
 	"github.com/ilie20088/go-web-app-boilerplate/app"
+	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
+	"github.com/ilie20088/go-web-app-boilerplate/app/repositories"
+	"github.com/ilie20088/go-web-app-boilerplate/app/services"
 	"github.com/ilie20088/go-web-app-boilerplate/utils"
 	"github.com/justinas/alice"
 )
@@ -21,10 +24,10 @@ func main() {
 }
 
 func init() {
-	// read configurations
 	utils.InitConfig()
 
-	// set up logging
 	utils.InitLogger()
 
+	services.InitBookService(repositories.BookRepositoryImpl{})
+	controllers.InitBooksController(services.BookFetcherImpl{})
 }

@@ -15,3 +15,6 @@ db:
   name: dbname
   user: dbuser
   pass: dbpass
+  max-open-connections:     250
+  max-idle-connections:     100
+  conn-max-lifetime:        180s

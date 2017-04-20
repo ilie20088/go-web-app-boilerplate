@@ -1,10 +1,14 @@
-hash: 647acea5a299b9e4c45cdec9def5b146088f9fe8d3c5e1f6ec1c40548b9a965a
-updated: 2017-04-19T12:29:46.525102382+03:00
+hash: 2349a747b145ff1f0067d0c5641df899a5548895c3997b86a18134bdb07e03f0
+updated: 2017-04-19T18:17:13.140657987+03:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
+- name: github.com/go-redis/redis
+  version: 15786cf82174d65ac7f478c7faa6d2e055dad8b7
+- name: github.com/go-sql-driver/mysql
+  version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
 - name: github.com/gorilla/context
-  version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
+  version: a8d44e7d8e4d532b6a27a02dd82abb31cc1b01bd
 - name: github.com/gorilla/mux
   version: 392c28fe23e1c45ddba891b0320b3b5df220beea
 - name: github.com/hashicorp/hcl
@@ -58,15 +62,27 @@ imports:
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: f4b4367115ec2de254587813edaa901bc1c723a8
+  version: f773ec03ce334298742df7f3108fc0d402646d22
   subpackages:
   - transform
   - unicode/norm
 - name: gopkg.in/yaml.v2
   version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
+- name: upper.io/db.v3
+  version: 99c1768a1cfc5ad29721228fe27c6ad632f08dbe
+  subpackages:
+  - internal/cache
+  - internal/cache/hashstructure
+  - internal/immutable
+  - internal/sqladapter
+  - internal/sqladapter/compat
+  - internal/sqladapter/exql
+  - lib/reflectx
+  - lib/sqlbuilder
+  - mysql
 testImports:
 - name: github.com/davecgh/go-spew
-  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
+  version: 2df174808ee097f90d259e432cc04442cf60be21
   subpackages:
   - spew
 - name: github.com/pmezard/go-difflib

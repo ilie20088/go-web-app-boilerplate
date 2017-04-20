@@ -8,6 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// LoggingMiddleware adds logging routines to passed handler
 func LoggingMiddleware(h http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -30,5 +31,4 @@ func LoggingMiddleware(h http.Handler) http.Handler {
 }
 
 func init() {
-	//utils.Logger.Info("Middleware")
 }

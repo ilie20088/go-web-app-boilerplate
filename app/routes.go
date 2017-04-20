@@ -19,8 +19,8 @@ func PublicRouter() *mux.Router {
 func PrivateRouter() *mux.Router {
 	r := mux.NewRouter()
 
-	s := r.Path("/").Subrouter()
-	s.Methods("GET").HandlerFunc(controllers.Index)
+	s := r.PathPrefix("/book").Path("/{id:[0-9]+}").Subrouter()
+	s.Methods("GET").HandlerFunc(controllers.FetchBook)
 
 	return r
 }
