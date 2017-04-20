@@ -8,13 +8,19 @@ import (
 // PublicRouter creates the application router for public endpoints.
 func PublicRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/_health", controllers.HealthCheck)
+
+	s := r.Path("/_health").Subrouter()
+	s.Methods("GET").HandlerFunc(controllers.HealthCheck)
+
 	return r
 }
 
-// PublicRouter creates the application router for public endpoints.
+// PrivateRouter creates the application router for private endpoints.
 func PrivateRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", controllers.Index)
+
+	s := r.Path("/").Subrouter()
+	s.Methods("GET").HandlerFunc(controllers.Index)
+
 	return r
 }

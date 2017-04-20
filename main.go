@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/ilie20088/go-web-app-boilerplate/app"
-
 	"github.com/ilie20088/go-web-app-boilerplate/utils"
 	"github.com/justinas/alice"
 )
