@@ -34,6 +34,9 @@ func SetDefaults() {
 	configManager.SetDefault("log.output", []string{"app.log"})
 	configManager.SetDefault("log.caller", false)
 	configManager.SetDefault("log.stacktrace", true)
+
+	configManager.SetDefault("newrelic.app-name", "")
+	configManager.SetDefault("newrelic.license", "")
 }
 
 func readFromFile(filename, cfgpath string) error {
@@ -105,6 +108,16 @@ func ShouldLogCaller() bool {
 // ShouldLogStacktrace returns whether we should log stacktrace
 func ShouldLogStacktrace() bool {
 	return configManager.GetBool("log.stacktrace")
+}
+
+// GetNewRelicAppName returns NewRelic application name
+func GetNewRelicAppName() string {
+	return configManager.GetString("newrelic.app-name")
+}
+
+// GetNewReliceLicense returns NewRelic license
+func GetNewReliceLicense() string {
+	return configManager.GetString("newrelic.license")
 }
 
 // InitConfig initializes configs

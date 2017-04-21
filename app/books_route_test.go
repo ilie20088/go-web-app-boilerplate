@@ -9,19 +9,22 @@ import (
 	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
 	"github.com/ilie20088/go-web-app-boilerplate/app/models"
 	"github.com/ilie20088/go-web-app-boilerplate/app/repositories"
+	"github.com/ilie20088/go-web-app-boilerplate/app/services"
+	"github.com/justinas/alice"
 	"github.com/stretchr/testify/assert"
 )
 
 var expectedBook = models.Book{ID: "1", Title: "LotR"}
+var chain = alice.New(LoggingMiddleware)
 
 func TestBookFound(t *testing.T) {
 	expectedStatusCode := 200
-	request, err := http.NewRequest("GET", "/book/1", nil)
+	request, err := http.NewRequest("GET", "/books/w1", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	responseWriter := httptest.NewRecorder()
-	router := PrivateRouter()
+	router := PrivateRouter(chain, nil)
 	controllers.InitBooksController(bookServiceStub{})
 
 	router.ServeHTTP(responseWriter, request)
@@ -38,18 +41,34 @@ func TestBookFound(t *testing.T) {
 
 func TestBookNotFound(t *testing.T) {
 	expectedStatusCode := 404
-	request, err := http.NewRequest("GET", "/book/non-existent", nil)
+	request, err := http.NewRequest("GET", "/books/non-existent", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	responseWriter := httptest.NewRecorder()
-	router := PrivateRouter()
+	router := PrivateRouter(chain, nil)
 	controllers.InitBooksController(bookServiceStub{})
 
 	router.ServeHTTP(responseWriter, request)
 
 	actualStatusCode := responseWriter.Code
 	assert.Equal(t, actualStatusCode, expectedStatusCode)
+}
+
+func BenchmarkFetchBook(b *testing.B) {
+	controllers.InitBooksController(services.BookFetcherImpl{})
+	services.InitBookService(repositories.BookRepositoryImpl{})
+	repositories.InitBookRepository(map[string]*models.Book{"1": {"1", "LotR"}})
+
+	request, err := http.NewRequest("GET", "/books/1", nil)
+	router := PrivateRouter(chain, nil)
+	if err != nil {
+		b.Fatal(err)
+	}
+	for n := 0; n < b.N; n++ {
+		responseWriter := httptest.NewRecorder()
+		router.ServeHTTP(responseWriter, request)
+	}
 }
 
 type bookServiceStub struct{}

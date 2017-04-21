@@ -1,10 +1,16 @@
-hash: 2349a747b145ff1f0067d0c5641df899a5548895c3997b86a18134bdb07e03f0
-updated: 2017-04-19T18:17:13.140657987+03:00
+hash: 68cd4422c0c8f0d54eff889241014161703c881d1f864cbcb0e98fe5d0bd671e
+updated: 2017-04-20T18:10:49.724981774+03:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
 - name: github.com/go-redis/redis
   version: 15786cf82174d65ac7f478c7faa6d2e055dad8b7
+  subpackages:
+  - internal
+  - internal/consistenthash
+  - internal/hashtag
+  - internal/pool
+  - internal/proto
 - name: github.com/go-sql-driver/mysql
   version: 7ebe0a500653eeb1859664bed5e48dec1e164e73
 - name: github.com/gorilla/context
@@ -26,10 +32,10 @@ imports:
   version: 052b8b6c18edb9db317af86806d8e00ebaa94160
 - name: github.com/magiconair/properties
   version: 51463bfca2576e06c62a8504b5c0f06d61312647
-  subpackages:
-  - assert
 - name: github.com/mitchellh/mapstructure
   version: 53818660ed4955e899c0bcafa97299a388bd7c8e
+- name: github.com/newrelic/go-agent
+  version: 29ec3cd1bb2f21d21d36da37dae52695cb2c3a17
 - name: github.com/pelletier/go-buffruneio
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
@@ -82,7 +88,7 @@ imports:
   - mysql
 testImports:
 - name: github.com/davecgh/go-spew
-  version: 2df174808ee097f90d259e432cc04442cf60be21
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
   - spew
 - name: github.com/pmezard/go-difflib

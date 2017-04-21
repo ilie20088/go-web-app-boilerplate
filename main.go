@@ -14,10 +14,14 @@ import (
 
 func main() {
 	pubRouter := app.PublicRouter()
-	privateRouter := app.PrivateRouter()
-	chain := alice.New(app.LoggingMiddleware).Then(privateRouter)
+	chain := alice.New(app.LoggingMiddleware)
+	nrApp, err := utils.InitNewRelic()
+	if err != nil {
+		log.Fatal(err)
+	}
+	privateRouter := app.PrivateRouter(chain, nrApp)
 
-	http.Handle("/", chain)
+	http.Handle("/", privateRouter)
 	http.Handle("/_health", pubRouter)
 
 	log.Fatal(http.ListenAndServe(utils.GetAddr(), nil))
