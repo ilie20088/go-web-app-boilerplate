@@ -19,7 +19,7 @@ var chain = alice.New(LoggingMiddleware)
 
 func TestBookFound(t *testing.T) {
 	expectedStatusCode := 200
-	request, err := http.NewRequest("GET", "/books/w1", nil)
+	request, err := http.NewRequest("GET", "/books/1", nil)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -17,7 +17,7 @@ func GetDbConnection() (sqlbuilder.Database, error) {
 		dbpass := GetDBpass()
 
 		var err error
-		session, err := mysql.Open(mysql.ConnectionURL{
+		session, err = mysql.Open(mysql.ConnectionURL{
 			Host:     dbhost,
 			Database: dbname,
 			User:     dbuser,

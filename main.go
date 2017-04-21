@@ -29,8 +29,8 @@ func main() {
 
 func init() {
 	utils.InitConfig()
-
 	utils.InitLogger()
+	utils.InitCache()
 
 	services.InitBookService(repositories.BookRepositoryImpl{})
 	controllers.InitBooksController(services.BookFetcherImpl{})
