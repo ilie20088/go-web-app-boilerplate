@@ -1,0 +1,23 @@
+host: localhost
+port: 8000
+log:
+  level: debug
+  output:
+    - stdout  # 'stdout' and 'stderr' are special values
+    - app.log # show file with line which did loggign
+  caller: true
+  stacktrace: false # show stack trace in case of error
+db:
+  host: localhost
+  name: sys
+  user: root
+  pass: toor
+  max-open-connections:     250
+  max-idle-connections:     100
+  conn-max-lifetime:        180s
+cache:
+  host: localhost
+  port: 6379
+newrelic:
+  app-name: go-boilerplate
+  license: 83304cc2433a9d16167a8bfbd5cc6dc04d19d6b1
