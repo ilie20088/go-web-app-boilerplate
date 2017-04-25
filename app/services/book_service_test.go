@@ -10,7 +10,7 @@ var expectedBook = &models.Book{"42", "LotR"}
 
 func TestFetchBook(t *testing.T) {
 	service := BookFetcherImpl{}
-	InitBookService(bookRepositoryStub{})
+	InitBookService(&bookRepositoryStub{})
 
 	actualBook, err := service.FetchBook("1")
 
@@ -22,6 +22,6 @@ func TestFetchBook(t *testing.T) {
 
 type bookRepositoryStub struct{}
 
-func (b bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
+func (_ *bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
 	return expectedBook, nil
 }

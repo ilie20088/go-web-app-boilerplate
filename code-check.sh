@@ -1,5 +1,7 @@
 #!/bin/sh
-# This script should be run before every commit to identify code formatting and style issues
+# This script should be run before every commit to identify code formatting and style issues.
+# You need golint installed: https://github.com/golang/lint
+
 files=$(find . -not -path './vendor*' -name '*.go')
 
 # go fmt

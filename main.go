@@ -37,6 +37,6 @@ func init() {
 	// set up connection with cache
 	utils.InitCache()
 
-	services.InitBookService(repositories.BookRepositoryImpl{})
-	controllers.InitBooksController(services.BookFetcherImpl{})
+	services.InitBookService(&repositories.BookRepositoryImpl{})
+	controllers.InitBooksController(&services.BookFetcherImpl{})
 }

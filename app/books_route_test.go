@@ -25,7 +25,7 @@ func TestBookFound(t *testing.T) {
 	}
 	responseWriter := httptest.NewRecorder()
 	router := PrivateRouter(chain, nil)
-	controllers.InitBooksController(bookServiceStub{})
+	controllers.InitBooksController(&bookServiceStub{})
 
 	router.ServeHTTP(responseWriter, request)
 
@@ -47,7 +47,7 @@ func TestBookNotFound(t *testing.T) {
 	}
 	responseWriter := httptest.NewRecorder()
 	router := PrivateRouter(chain, nil)
-	controllers.InitBooksController(bookServiceStub{})
+	controllers.InitBooksController(&bookServiceStub{})
 
 	router.ServeHTTP(responseWriter, request)
 
@@ -56,8 +56,8 @@ func TestBookNotFound(t *testing.T) {
 }
 
 func BenchmarkFetchBook(b *testing.B) {
-	controllers.InitBooksController(services.BookFetcherImpl{})
-	services.InitBookService(repositories.BookRepositoryImpl{})
+	controllers.InitBooksController(&services.BookFetcherImpl{})
+	services.InitBookService(&repositories.BookRepositoryImpl{})
 	repositories.InitBookRepository(map[string]*models.Book{"1": {"1", "LotR"}})
 
 	request, err := http.NewRequest("GET", "/books/1", nil)
@@ -73,7 +73,7 @@ func BenchmarkFetchBook(b *testing.B) {
 
 type bookServiceStub struct{}
 
-func (b bookServiceStub) FetchBook(id string) (*models.Book, error) {
+func (_ *bookServiceStub) FetchBook(id string) (*models.Book, error) {
 	switch id {
 	case "1":
 		return &expectedBook, nil
