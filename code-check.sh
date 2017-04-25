@@ -1,4 +1,5 @@
 #!/bin/sh
+# This script should be run before every commit to identify code formatting and style issues
 files=$(find . -not -path './vendor*' -name '*.go')
 
 # go fmt
@@ -8,7 +9,6 @@ if [[ ! -z $unfmtd ]]; then
 fi
 
 # go vet
-echo "Running go vet checks..."
 echo $files | xargs go tool vet -all
 
 # golint
