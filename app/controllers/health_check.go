@@ -24,11 +24,11 @@ func HealthCheck(w http.ResponseWriter, _ *http.Request) {
 		Redis: up,
 	}
 	statusCode := http.StatusOK
-	if err := CheckDB(); err != nil {
+	if err := utils.PingDB(); err != nil {
 		health.DB = down
 		statusCode = http.StatusInternalServerError
 	}
-	if err := CheckRedis(); err != nil {
+	if err := utils.PingRedis(); err != nil {
 		health.Redis = down
 		statusCode = http.StatusInternalServerError
 	}
@@ -37,23 +37,4 @@ func HealthCheck(w http.ResponseWriter, _ *http.Request) {
 	if err == nil {
 		w.Write(healthJSON)
 	}
-}
-
-// CheckDB checks if database is available
-var CheckDB = func() error {
-	session, err := utils.GetDbConnection()
-	if err != nil {
-		return err
-	}
-	_, err = session.Exec("SELECT 1") // session.Ping() always returns OK after first successful ping
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// CheckRedis checks if Redis is available
-var CheckRedis = func() error {
-	statusCmd := utils.RedisClient.Ping()
-	return statusCmd.Err()
 }

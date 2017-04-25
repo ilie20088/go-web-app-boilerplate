@@ -6,15 +6,15 @@ import (
 
 // InitNewRelic initializes NewRelic application
 func InitNewRelic() (newrelic.Application, error) {
-	nrAppName := GetNewRelicAppName()
-	nrLicense := GetNewReliceLicense()
+	newRelicAppName := GetNewRelicAppName()
+	newRelicLicense := GetNewReliceLicense()
 
-	if nrLicense == "" {
+	if newRelicLicense == "" {
 		return nil, nil
 	}
 
-	Logger.Info("Connecting to New Relic with application name " + nrAppName)
-	config := newrelic.NewConfig(nrAppName, nrLicense)
+	Logger.Info("Connecting to New Relic with application name " + newRelicAppName)
+	config := newrelic.NewConfig(newRelicAppName, newRelicLicense)
 
 	return newrelic.NewApplication(config)
 }

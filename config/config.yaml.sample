@@ -3,8 +3,8 @@ port: 8000
 log:
   level: debug
   output:
-    - stdout  # 'stdout' and 'stderr' are special values
-    - app.log # show file with line which did loggign
+    - stdout  # 'stdout' and 'stderr' are special values for NewRelic indicating output should go system stdout or stderr
+    - app.log # show file with line which did logging
   caller: true
   stacktrace: false # show stack trace in case of error
 db:

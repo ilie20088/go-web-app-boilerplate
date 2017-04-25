@@ -15,11 +15,11 @@ import (
 func main() {
 	pubRouter := app.PublicRouter()
 	chain := alice.New(app.LoggingMiddleware)
-	nrApp, err := utils.InitNewRelic()
+	newRelicApp, err := utils.InitNewRelic()
 	if err != nil {
 		log.Fatal(err)
 	}
-	privateRouter := app.PrivateRouter(chain, nrApp)
+	privateRouter := app.PrivateRouter(chain, newRelicApp)
 
 	http.Handle("/", privateRouter)
 	http.Handle("/_health", pubRouter)
@@ -28,8 +28,13 @@ func main() {
 }
 
 func init() {
+	// read configurations
 	utils.InitConfig()
+
+	// set up logging
 	utils.InitLogger()
+
+	// set up connection with cache
 	utils.InitCache()
 
 	services.InitBookService(repositories.BookRepositoryImpl{})

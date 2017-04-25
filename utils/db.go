@@ -33,3 +33,16 @@ func GetDbConnection() (sqlbuilder.Database, error) {
 	}
 	return session, nil
 }
+
+// PingDB checks if database is available
+var PingDB = func() error {
+	session, err := GetDbConnection()
+	if err != nil {
+		return err
+	}
+	_, err = session.Exec("SELECT 1") // session.Ping() always returns OK after first successful ping
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
+	"github.com/ilie20088/go-web-app-boilerplate/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,8 +19,8 @@ func TestHealthCheckUP(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	controllers.CheckDB = func() error { return nil }
-	controllers.CheckRedis = func() error { return nil }
+	utils.PingDB = func() error { return nil }
+	utils.PingRedis = func() error { return nil }
 	responseWriter := httptest.NewRecorder()
 	router := PublicRouter()
 
@@ -39,8 +40,8 @@ func TestHealthCheckDown(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	controllers.CheckDB = func() error { return errors.New("DB is down") }
-	controllers.CheckRedis = func() error { return nil }
+	utils.PingDB = func() error { return errors.New("DB is down") }
+	utils.PingRedis = func() error { return nil }
 	responseWriter := httptest.NewRecorder()
 	router := PublicRouter()
 

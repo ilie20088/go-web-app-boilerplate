@@ -36,7 +36,8 @@ func PrivateRouter(middlewareChain alice.Chain, newRelicApp newrelic.Application
 		var route *mux.Route
 		if newRelicApp != nil {
 			utils.Logger.Info("Instrumenting " + routeCfg.Method + " " + routeCfg.Path)
-			route = r.Handle(newrelic.WrapHandle(newRelicApp, routeCfg.Path, middlewareChain.Then(routeCfg.Handler)))
+			nrPath, nrHandler := newrelic.WrapHandle(newRelicApp, routeCfg.Path, middlewareChain.Then(routeCfg.Handler))
+			route = r.Handle(nrPath, nrHandler)
 		} else {
 			route = r.Handle(routeCfg.Path, middlewareChain.Then(routeCfg.Handler))
 		}

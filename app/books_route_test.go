@@ -18,7 +18,7 @@ var expectedBook = models.Book{ID: "1", Title: "LotR"}
 var chain = alice.New(LoggingMiddleware)
 
 func TestBookFound(t *testing.T) {
-	expectedStatusCode := 200
+	expectedStatusCode := http.StatusOK
 	request, err := http.NewRequest("GET", "/books/1", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -40,7 +40,7 @@ func TestBookFound(t *testing.T) {
 }
 
 func TestBookNotFound(t *testing.T) {
-	expectedStatusCode := 404
+	expectedStatusCode := http.StatusNotFound
 	request, err := http.NewRequest("GET", "/books/non-existent", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -61,10 +61,10 @@ func BenchmarkFetchBook(b *testing.B) {
 	repositories.InitBookRepository(map[string]*models.Book{"1": {"1", "LotR"}})
 
 	request, err := http.NewRequest("GET", "/books/1", nil)
-	router := PrivateRouter(chain, nil)
 	if err != nil {
 		b.Fatal(err)
 	}
+	router := PrivateRouter(chain, nil)
 	for n := 0; n < b.N; n++ {
 		responseWriter := httptest.NewRecorder()
 		router.ServeHTTP(responseWriter, request)
