@@ -1,4 +1,4 @@
-/vendor
+vendor/
 .idea
 config.yaml
 **/*.log

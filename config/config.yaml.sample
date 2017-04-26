@@ -1,17 +1,23 @@
 host: localhost
 port: 8000
 log:
-  level: info
-  # 'stdout' and 'stderr' are special values
+  level: debug
   output:
-    - stdout
-    - app.log
-  # show file with line which did loggign
+    - stdout  # 'stdout' and 'stderr' are special values for NewRelic indicating output should go system stdout or stderr
+    - app.log # show file with line which did logging
   caller: true
-  # show stack trace in case of error
-  stacktrace: false
+  stacktrace: false # show stack trace in case of error
 db:
-  host: dbhost
-  name: dbname
-  user: dbuser
-  pass: dbpass
+  host: localhost
+  name: sys
+  user: root
+  pass: toor
+  max-open-connections:     250
+  max-idle-connections:     100
+  conn-max-lifetime:        180s
+cache:
+  host: localhost
+  port: 6379
+newrelic:
+  app-name: go-boilerplate
+  license: 83304cc2433a9d16167a8bfbd5cc6dc04d19d6b1

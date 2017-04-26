@@ -7,6 +7,10 @@ import:
 - package: github.com/spf13/viper
 - package: github.com/justinas/alice
   version: ^1.0.0
+- package: github.com/go-redis/redis
+  version: ^6.2.3
+- package: github.com/newrelic/go-agent
+  version: ^1.9.0
 testImport:
 - package: github.com/stretchr/testify
   version: ^1.1.4

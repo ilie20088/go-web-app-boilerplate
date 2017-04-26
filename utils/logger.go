@@ -5,12 +5,15 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// Logger is a global that is used in logging middleware
 var Logger *zap.Logger
+
+// LogLevel defines current logging level: debug, info, warn, etc
 var LogLevel zapcore.Level
 
+// InitLogger creates logger and configures it
 func InitLogger() {
-
-	switch ConfigManager.GetString("log.level") {
+	switch GetLogLevel() {
 	case "debug":
 		LogLevel = zap.DebugLevel
 	case "info":
@@ -26,11 +29,10 @@ func InitLogger() {
 	atomicLevel := zap.NewAtomicLevel()
 	atomicLevel.SetLevel(LogLevel)
 	config := zap.NewProductionConfig()
-	config.OutputPaths = ConfigManager.GetStringSlice("log.output")
+	config.OutputPaths = GetLogOutput()
 	config.Level = atomicLevel
-
-	config.DisableCaller = !ConfigManager.GetBool("log.caller")
-	config.DisableStacktrace = !ConfigManager.GetBool("log.stacktrace")
+	config.DisableCaller = !ShouldLogCaller()
+	config.DisableStacktrace = !ShouldLogStacktrace()
 
 	Logger, _ = config.Build()
 }
