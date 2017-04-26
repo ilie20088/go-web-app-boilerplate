@@ -18,11 +18,11 @@ import (
 
 var expectedBook = models.Book{ID: "1", Title: "LotR"}
 var chain = alice.New(LoggingMiddleware, AuthMiddleware)
-var expectedAuthUrl = "http://www.google.com"
+var expectedAuthURL = "http://www.google.com"
 
 func TestBookFound(t *testing.T) {
 	defer gock.Off()
-	gock.New(expectedAuthUrl).Get("/").Reply(http.StatusOK)
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	expectedStatusCode := http.StatusOK
 	request, err := http.NewRequest("GET", "/books/1", nil)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestBookFound(t *testing.T) {
 
 func TestBookNotFound(t *testing.T) {
 	defer gock.Off()
-	gock.New(expectedAuthUrl).Get("/").Reply(http.StatusOK)
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	expectedStatusCode := http.StatusNotFound
 	request, err := http.NewRequest("GET", "/books/non-existent", nil)
 	if err != nil {
@@ -64,7 +64,7 @@ func TestBookNotFound(t *testing.T) {
 
 func TestBookUnauthorized(t *testing.T) {
 	defer gock.Off()
-	gock.New(expectedAuthUrl).Get("/").Reply(http.StatusUnauthorized)
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusUnauthorized)
 	expectedStatusCode := http.StatusUnauthorized
 	request, err := http.NewRequest("GET", "/books/1", nil)
 	if err != nil {
@@ -82,7 +82,7 @@ func TestBookUnauthorized(t *testing.T) {
 
 func BenchmarkFetchBook(b *testing.B) {
 	defer gock.Off()
-	gock.New(expectedAuthUrl).Get("/").Reply(http.StatusOK)
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	controllers.InitBooksController(&services.BookFetcherImpl{})
 	services.InitBookService(&repositories.BookRepositoryImpl{})
 	repositories.InitBookRepository(map[string]*models.Book{"1": {"1", "LotR"}})

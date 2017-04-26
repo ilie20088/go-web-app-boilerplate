@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var authUrl = "http://www.google.com"
+var authURL = "http://www.google.com"
 
 // AuthMiddleware makes REST call to external
 func AuthMiddleware(h http.Handler) http.Handler {
@@ -30,7 +30,7 @@ func authenticate(w http.ResponseWriter) error {
 		defer authSegment(txn).End()
 	}
 
-	response, err := http.Get(authUrl)
+	response, err := http.Get(authURL)
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func authenticate(w http.ResponseWriter) error {
 func authSegment(txn newrelic.Transaction) newrelic.ExternalSegment {
 	return newrelic.ExternalSegment{
 		StartTime: txn.StartSegmentNow(),
-		URL:       authUrl,
+		URL:       authURL,
 	}
 }
 
