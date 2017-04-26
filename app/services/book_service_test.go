@@ -1,9 +1,10 @@
 package services
 
 import (
+	"testing"
+
 	"github.com/ilie20088/go-web-app-boilerplate/app/models"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 var expectedBook = &models.Book{"42", "LotR"}
@@ -22,6 +23,6 @@ func TestFetchBook(t *testing.T) {
 
 type bookRepositoryStub struct{}
 
-func (_ *bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
+func (*bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
 	return expectedBook, nil
 }
