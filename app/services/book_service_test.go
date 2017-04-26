@@ -23,6 +23,6 @@ func TestFetchBook(t *testing.T) {
 
 type bookRepositoryStub struct{}
 
-func (*bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
+func (bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
 	return expectedBook, nil
 }

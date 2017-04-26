@@ -73,7 +73,7 @@ func BenchmarkFetchBook(b *testing.B) {
 
 type bookServiceStub struct{}
 
-func (*bookServiceStub) FetchBook(id string) (*models.Book, error) {
+func (bookServiceStub) FetchBook(id string) (*models.Book, error) {
 	switch id {
 	case "1":
 		return &expectedBook, nil

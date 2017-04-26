@@ -25,7 +25,7 @@ func InitBookRepository(_storage map[string]*models.Book) {
 var ErrBookNotFound = errors.New("Book not found")
 
 // FetchBookByID fetches book by given id or returns a not found error
-func (*BookRepositoryImpl) FetchBookByID(id string) (*models.Book, error) {
+func (BookRepositoryImpl) FetchBookByID(id string) (*models.Book, error) {
 	book, ok := storage[id]
 	if !ok {
 		return nil, ErrBookNotFound

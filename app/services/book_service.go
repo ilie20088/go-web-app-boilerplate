@@ -21,6 +21,6 @@ func InitBookService(_bookRepository repositories.BookRepository) {
 }
 
 // FetchBook fetches book by id or returns a error returned by book repository
-func (*BookFetcherImpl) FetchBook(id string) (*models.Book, error) {
+func (BookFetcherImpl) FetchBook(id string) (*models.Book, error) {
 	return bookRepository.FetchBookByID(id)
 }
