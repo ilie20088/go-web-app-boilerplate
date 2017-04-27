@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"testing"
 
 	"github.com/ilie20088/go-web-app-boilerplate/app/models"
@@ -13,7 +14,7 @@ func TestFetchBook(t *testing.T) {
 	service := BookFetcherImpl{}
 	InitBookService(&bookRepositoryStub{})
 
-	actualBook, err := service.FetchBook("1")
+	actualBook, err := service.FetchBook(context.Background(), "1")
 
 	if err != nil {
 		t.Fatal(err)
@@ -23,6 +24,6 @@ func TestFetchBook(t *testing.T) {
 
 type bookRepositoryStub struct{}
 
-func (bookRepositoryStub) FetchBookByID(_ string) (*models.Book, error) {
+func (bookRepositoryStub) FetchBookByID(_ context.Context, _ string) (*models.Book, error) {
 	return expectedBook, nil
 }

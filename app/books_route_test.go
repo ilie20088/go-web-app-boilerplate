@@ -1,11 +1,13 @@
 package app
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/h2non/gock"
 	"github.com/ilie20088/go-web-app-boilerplate/app/controllers"
 	"github.com/ilie20088/go-web-app-boilerplate/app/models"
 	"github.com/ilie20088/go-web-app-boilerplate/app/repositories"
@@ -15,9 +17,12 @@ import (
 )
 
 var expectedBook = models.Book{ID: "1", Title: "LotR"}
-var chain = alice.New(LoggingMiddleware)
+var chain = alice.New(LoggingMiddleware, AuthMiddleware)
+var expectedAuthURL = "http://www.google.com"
 
 func TestBookFound(t *testing.T) {
+	defer gock.Off()
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	expectedStatusCode := http.StatusOK
 	request, err := http.NewRequest("GET", "/books/1", nil)
 	if err != nil {
@@ -40,6 +45,8 @@ func TestBookFound(t *testing.T) {
 }
 
 func TestBookNotFound(t *testing.T) {
+	defer gock.Off()
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	expectedStatusCode := http.StatusNotFound
 	request, err := http.NewRequest("GET", "/books/non-existent", nil)
 	if err != nil {
@@ -55,7 +62,27 @@ func TestBookNotFound(t *testing.T) {
 	assert.Equal(t, actualStatusCode, expectedStatusCode)
 }
 
+func TestBookUnauthorized(t *testing.T) {
+	defer gock.Off()
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusUnauthorized)
+	expectedStatusCode := http.StatusUnauthorized
+	request, err := http.NewRequest("GET", "/books/1", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	responseWriter := httptest.NewRecorder()
+	router := PrivateRouter(chain, nil)
+	controllers.InitBooksController(&bookServiceStub{})
+
+	router.ServeHTTP(responseWriter, request)
+
+	actualStatusCode := responseWriter.Code
+	assert.Equal(t, actualStatusCode, expectedStatusCode)
+}
+
 func BenchmarkFetchBook(b *testing.B) {
+	defer gock.Off()
+	gock.New(expectedAuthURL).Get("/").Reply(http.StatusOK)
 	controllers.InitBooksController(&services.BookFetcherImpl{})
 	services.InitBookService(&repositories.BookRepositoryImpl{})
 	repositories.InitBookRepository(map[string]*models.Book{"1": {"1", "LotR"}})
@@ -73,7 +100,7 @@ func BenchmarkFetchBook(b *testing.B) {
 
 type bookServiceStub struct{}
 
-func (bookServiceStub) FetchBook(id string) (*models.Book, error) {
+func (bookServiceStub) FetchBook(_ context.Context, id string) (*models.Book, error) {
 	switch id {
 	case "1":
 		return &expectedBook, nil

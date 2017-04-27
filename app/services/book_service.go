@@ -1,13 +1,15 @@
 package services
 
 import (
+	"context"
+
 	"github.com/ilie20088/go-web-app-boilerplate/app/models"
 	"github.com/ilie20088/go-web-app-boilerplate/app/repositories"
 )
 
 // BookFetcher is an interfaces that defines set of business operations related to books
 type BookFetcher interface {
-	FetchBook(id string) (*models.Book, error)
+	FetchBook(ctx context.Context, id string) (*models.Book, error)
 }
 
 // BookFetcherImpl is an implementation of BookFetcher
@@ -21,6 +23,6 @@ func InitBookService(_bookRepository repositories.BookRepository) {
 }
 
 // FetchBook fetches book by id or returns a error returned by book repository
-func (BookFetcherImpl) FetchBook(id string) (*models.Book, error) {
-	return bookRepository.FetchBookByID(id)
+func (BookFetcherImpl) FetchBook(ctx context.Context, id string) (*models.Book, error) {
+	return bookRepository.FetchBookByID(ctx, id)
 }

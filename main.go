@@ -14,7 +14,7 @@ import (
 
 func main() {
 	pubRouter := app.PublicRouter()
-	chain := alice.New(app.LoggingMiddleware)
+	chain := alice.New(app.LoggingMiddleware, app.AuthMiddleware)
 	newRelicApp, err := utils.InitNewRelic()
 	if err != nil {
 		log.Fatal(err)

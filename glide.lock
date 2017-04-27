@@ -1,10 +1,10 @@
-hash: 68cd4422c0c8f0d54eff889241014161703c881d1f864cbcb0e98fe5d0bd671e
-updated: 2017-04-20T18:10:49.724981774+03:00
+hash: 5047c1cd1394bfd80c4cc3001a52259ea1aba13dc82b2e74f6a45090096ceab7
+updated: 2017-04-26T10:43:34.077234589+03:00
 imports:
 - name: github.com/fsnotify/fsnotify
   version: 4da3e2cfbabc9f751898f250b49f2439785783a1
 - name: github.com/go-redis/redis
-  version: 15786cf82174d65ac7f478c7faa6d2e055dad8b7
+  version: 2528e7a712d313b85173f4c677278c8e6270bb23
   subpackages:
   - internal
   - internal/consistenthash
@@ -36,6 +36,12 @@ imports:
   version: 53818660ed4955e899c0bcafa97299a388bd7c8e
 - name: github.com/newrelic/go-agent
   version: 29ec3cd1bb2f21d21d36da37dae52695cb2c3a17
+  subpackages:
+  - internal
+  - internal/jsonx
+  - internal/logger
+  - internal/sysinfo
+  - internal/utilization
 - name: github.com/pelletier/go-buffruneio
   version: c37440a7cf42ac63b919c752ca73a85067e05992
 - name: github.com/pelletier/go-toml
@@ -55,7 +61,7 @@ imports:
 - name: go.uber.org/atomic
   version: 4e336646b2ef9fc6e47be8e21594178f98e5ebcf
 - name: go.uber.org/zap
-  version: 1550bc05539134bbf8612a35f34a79ab8bf34ee3
+  version: 6a4e056f2cc954cfec3581729e758909604b3f76
   subpackages:
   - buffer
   - internal/bufferpool
@@ -91,6 +97,8 @@ testImports:
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
   - spew
+- name: github.com/h2non/gock
+  version: 2897ffde93a71060ce86518f1e7317ec8433d2d6
 - name: github.com/pmezard/go-difflib
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
